@@ -30,15 +30,21 @@ class AlienInvasion:
             if event.type == pygame.QUIT:
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RIGHT:
-                    self.ship.moving_right = True
-                elif event.key == pygame.K_LEFT:
-                    self.ship.moving_left = True
+                moving_flag = True
+                self._check_keydown_or_keyup_events(event,moving_flag)
             elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_RIGHT:
-                    self.ship.moving_right = False
-                elif event.key == pygame.K_LEFT:
-                    self.ship.moving_left = False
+                moving_flag = False
+                self._check_keydown_or_keyup_events(event,moving_flag)
+                    
+    def _check_keydown_or_keyup_events(self,event,moving_flag):
+        if event.key == pygame.K_RIGHT:
+            self.ship.moving_right = moving_flag
+        if event.key == pygame.K_LEFT:
+            self.ship.moving_left  = moving_flag
+        if event.key == pygame.K_UP:
+            self.ship.moving_up    = moving_flag
+        if event.key == pygame.K_DOWN:
+            self.ship.moving_down  = moving_flag
 
     def _update_screen(self):
         #填充背景、绘制飞船并刷新屏幕
