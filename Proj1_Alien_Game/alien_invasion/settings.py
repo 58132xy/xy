@@ -8,3 +8,6 @@ class Settings:
         self.screen_height = 800
         #设置背景色为豆沙绿
         self.bg_color = (202,234,206)
+
+        #飞船的速度
+        self.ship_speed = 1.5

@@ -12,7 +12,13 @@ class AlienInvasion:
         pygame.init()
         self.settings = Settings()
 
-        self.screen = pygame.display.set_mode((self.settings.screen_width,self.settings.screen_height))
+        # 指定屏幕大小
+        # self.screen = pygame.display.set_mode((self.settings.screen_width,self.settings.screen_height))
+
+        # 实现全屏
+        self.screen = pygame.display.set_mode((0,0),pygame.FULLSCREEN)
+        self.settings.screen_width = self.screen.get_rect().width
+        self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Alien Invasion")
 
         self.ship = Ship(self)
@@ -29,14 +35,13 @@ class AlienInvasion:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
-            elif event.type == pygame.KEYDOWN:
-                moving_flag = True
-                self._check_keydown_or_keyup_events(event,moving_flag)
-            elif event.type == pygame.KEYUP:
-                moving_flag = False
-                self._check_keydown_or_keyup_events(event,moving_flag)
+            elif event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
+                moving_flag = event.type == pygame.KEYDOWN #按下为True，松开为Up
+                self._check_key_events(event,moving_flag)
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_q:  #摁下Q键退出
+                    sys.exit()
                     
-    def _check_keydown_or_keyup_events(self,event,moving_flag):
+    def _check_key_events(self,event,moving_flag):
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = moving_flag
         if event.key == pygame.K_LEFT:
