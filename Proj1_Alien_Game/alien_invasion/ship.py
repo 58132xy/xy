@@ -5,7 +5,7 @@ class Ship(Sprite):
     '''表示飞船的类'''
 
     def __init__(self,ai_game):
-        '''初始化外星人并设置其起始位置'''
+        '''初始化飞船并设置其起始位置'''
         super().__init__()
         self.screen = ai_game.screen
         self.settings = ai_game.settings
