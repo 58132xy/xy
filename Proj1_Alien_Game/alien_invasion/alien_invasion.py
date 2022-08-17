@@ -3,6 +3,7 @@ import sys
 
 from settings import Settings
 from ship import Ship
+from alien import Alien
 from bullet import Bullet
 
 class AlienInvasion:
@@ -23,13 +24,41 @@ class AlienInvasion:
         pygame.display.set_caption("Alien Invasion")
 
         self.ship = Ship(self)
-        self.bullets = pygame.sprite.Group()
 
+        #存储子弹的列表
+        self.bullets = pygame.sprite.Group()
+        #存储外星人的列表
+        self.aliens  = pygame.sprite.Group()
+        #创建外星人
+        self._creat_fleet()
+
+    def _creat_alien(self,alien_number,row_number):
+        '''创建一个外星人并将其放在当前行'''
+        alien = Alien(self)
+        alien_width,alien_height = alien.rect.size
+        alien.rect.x = alien_width + 2*alien_width*alien_number
+        alien.rect.y = alien_height + 2*alien_height*row_number
+        self.aliens.add(alien)
+
+    def _creat_fleet(self):
+        '''创建外星人群'''
+        alien = Alien(self)
+        alien_width,alien_height = alien.rect.size
+
+        #计算一行可容纳多少个外星人
+        num_aliens_x = (self.settings.screen_width - 2*alien_width) // (2*alien_width)
+        #计算可容纳多少行外星人
+        num_aliens_y = (self.settings.screen_height - 3*alien_height - self.ship.rect.height) // (2*alien_height)
+        #创建一排外星人，间隔为两个外星人宽度
+        for row_number in range(num_aliens_y):
+            for alien_number in range(num_aliens_x):
+                self._creat_alien(alien_number,row_number)
+    
     def run_game(self):
         '''开始游戏的主循环'''
         while True:
             self._check_events()
-            self._update_ship()
+            self.ship.update()
             self._update_bullet()
             self._update_screen()
 
@@ -58,18 +87,17 @@ class AlienInvasion:
     
     def _update_bullet(self):
         self.bullets.update()
-        for bullet in self.bullets.sprites():
+        for bullet in self.bullets.copy():
             if bullet.rect.bottom <= 0: #删除消失的子弹，避免性能浪费
                 self.bullets.remove(bullet)
-            bullet.draw_bullet()
-
-    def _update_ship(self):
-        self.ship.update()
-        self.ship.blitme()
 
     def _update_screen(self):
         #填充背景、绘制飞船并刷新屏幕
         self.screen.fill(self.settings.bg_color)
+        self.ship.blitme()
+        for bullet in self.bullets.sprites():
+            bullet.draw_bullet()
+        self.aliens.draw(self.screen)
         pygame.display.flip()
 
     def _fire_bullet(self):

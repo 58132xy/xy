@@ -18,3 +18,7 @@ class Settings:
         self.bullet_height = 15
         self.bullet_color = (60,60,60)
         self.bullet_allowed = 3 #只允许发射3颗子弹
+
+        #外星飞船的属性
+        self.alien_width = 100
+        self.alien_height = 50
