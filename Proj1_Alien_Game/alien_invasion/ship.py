@@ -12,7 +12,7 @@ class Ship(Sprite):
         self.screen_rect = ai_game.screen.get_rect()
 
         #加载飞船图像并缩放尺寸
-        self.image = (pygame.image.load("ship.bmp"))
+        self.image = (pygame.image.load("Proj1_Alien_Game\\alien_invasion\Images\ship.bmp"))
         self.image = pygame.transform.scale(self.image, (50, 70))
         self.rect  = self.image.get_rect()
 

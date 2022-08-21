@@ -23,20 +23,21 @@ class AlienInvasion:
         # self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Alien Invasion")
 
+        #创建飞船
         self.ship = Ship(self)
-
         #存储子弹的列表
         self.bullets = pygame.sprite.Group()
         #存储外星人的列表
         self.aliens  = pygame.sprite.Group()
-        #创建外星人
+        #创建外星人群
         self._creat_fleet()
 
     def _creat_alien(self,alien_number,row_number):
         '''创建一个外星人并将其放在当前行'''
         alien = Alien(self)
         alien_width,alien_height = alien.rect.size
-        alien.rect.x = alien_width + 2*alien_width*alien_number
+        alien.x = alien_width + 2*alien_width*alien_number #记得更新alien.x!不然只有一列外星人
+        alien.rect.x = alien.x
         alien.rect.y = alien_height + 2*alien_height*row_number
         self.aliens.add(alien)
 
@@ -44,22 +45,39 @@ class AlienInvasion:
         '''创建外星人群'''
         alien = Alien(self)
         alien_width,alien_height = alien.rect.size
-
         #计算一行可容纳多少个外星人
         num_aliens_x = (self.settings.screen_width - 2*alien_width) // (2*alien_width)
         #计算可容纳多少行外星人
         num_aliens_y = (self.settings.screen_height - 3*alien_height - self.ship.rect.height) // (2*alien_height)
         #创建一排外星人，间隔为两个外星人宽度
-        for row_number in range(num_aliens_y):
-            for alien_number in range(num_aliens_x):
+        for alien_number in range(num_aliens_x):
+            for row_number in range(num_aliens_y):
                 self._creat_alien(alien_number,row_number)
-    
+
+    def _update_aliens(self):
+        '''更新所有外星人的位置'''
+        self._check_fleet_edges()
+        self.aliens.update()
+
+    def _check_fleet_edges(self):
+        '''有外星人到达屏幕边缘时更新方向及位置'''
+        for alien in self.aliens.sprites():
+            if alien.check_edges():
+                self._change_fleet_direction()
+                break
+
+    def _change_fleet_direction(self):
+        for alien in self.aliens.sprites():
+            alien.rect.y += self.settings.fleet_drop_speed
+        self.settings.fleet_direction *= -1
+        
     def run_game(self):
         '''开始游戏的主循环'''
         while True:
             self._check_events()
             self.ship.update()
             self._update_bullet()
+            self._update_aliens()
             self._update_screen()
 
     def _check_events(self):

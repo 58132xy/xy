@@ -22,3 +22,9 @@ class Settings:
         #外星飞船的属性
         self.alien_width = 100
         self.alien_height = 50
+
+        #外星人的速度
+        self.alien_speed = 0.5
+        self.fleet_drop_speed = 10
+        #self_direction为1表示向右移，为-1表示向左移
+        self.fleet_direction = 1
