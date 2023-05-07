@@ -10,6 +10,8 @@ class Settings:
         self.bg_color = (202, 234, 206)
 
         # 飞船的速度
+        self.ship_width = 50
+        self.ship_height = 70
         self.ship_speed = 1.5
         self.ship_limit = 3
 

@@ -13,8 +13,9 @@ class Ship(Sprite):
         self.screen_rect = ai_game.screen.get_rect()
 
         # 加载飞船图像并缩放尺寸
-        self.image = pygame.image.load('alien_invasion\\Images\\alien.bmp')
-        self.image = pygame.transform.scale(self.image, (50, 70))
+        self.image = pygame.image.load('alien_invasion\\Images\\ship.bmp')
+        self.image = pygame.transform.scale(
+            self.image, (self.settings.ship_width, self.settings.ship_height))
         self.rect = self.image.get_rect()
 
         # 每个飞船都放在屏幕底部中央
@@ -52,3 +53,4 @@ class Ship(Sprite):
         '''让飞船在底部居中'''
         self.rect.midbottom = self.screen_rect.midbottom
         self.x = float(self.rect.x)
+        self.y = float(self.rect.y)

@@ -1,6 +1,5 @@
 import pygame
 from pygame.sprite import Sprite
-# from settings import Settings
 
 
 class Alien(Sprite):
@@ -13,7 +12,7 @@ class Alien(Sprite):
         self.settings = ai_game.settings
 
         # 加载外星人图像
-        self.image = pygame.image.load('alien_invasion\\Images\\ship.bmp')
+        self.image = pygame.image.load('alien_invasion\\Images\\alien.bmp')
         self.image = pygame.transform.scale(
             self.image, (self.settings.alien_width, self.settings.alien_height))
         self.rect = self.image.get_rect()
