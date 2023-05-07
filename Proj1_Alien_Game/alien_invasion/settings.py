@@ -11,9 +11,10 @@ class Settings:
 
         #飞船的速度
         self.ship_speed = 1.5
+        self.ship_limit = 3
 
         #子弹的属性
-        self.bullet_speed = 1.0
+        self.bullet_speed = 1.5
         self.bullet_width = 3
         self.bullet_height = 15
         self.bullet_color = (60,60,60)
@@ -25,6 +26,6 @@ class Settings:
 
         #外星人的速度
         self.alien_speed = 0.5
-        self.fleet_drop_speed = 10
+        self.fleet_drop_speed = 50
         #self_direction为1表示向右移，为-1表示向左移
         self.fleet_direction = 1
